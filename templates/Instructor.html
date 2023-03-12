@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+{% include 'Menu.html' %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2> Manage <b>Instructor</b> <button type = "button" class="btn btn-success"data-toggle="modal" data-target="#InstructorADD"> Add New Instructor</button></h2>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-primary alert-dismissable" role ="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">[x]</span>
+                    </button>
+                    {{ message }}
+                </div>
+                {% endfor  %}
+                {% endif %}
+                {% endwith %}
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for row in InstructorData %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.Name}}</td>
+                        <td>{{row.Department}}</td>
+                        <td>
+                            <a herf="/InstructorUpdate/{{row.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+
+                            <a href="/InstructorDeleter/{{row.id}}" class="btn btn-danger btn-xs">Delete</a>
+                        </td>
+                    </tr>
+
+                    <!-- <p> The interest earned is: {{row.Name}} </p> --> 
+                    <!------------EDIT-Instructor------------->
+                    <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog"> 
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">update Information</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{url_for('InstructorUpdate')}}" method="POST">
+                                        <div class="form-group">
+                                            <label>*Name:</label>
+                                            <input type="hidden" name="id" value="{{row.id}}">
+                                            <input type="text" class="form-control" name="name" value="{{row.Name}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>*InstructorID:</label>
+                                            <input type="number" class="form-control" name="InstructorID"  value="{{row.id}}">
+                                        </div> 
+                                        <div class="form-group">
+                                            <label>*Department :</label>
+                                            <input type="text" class="form-control" name="Department" value="{{row.Department}}" required="0"> <br>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">update</button>
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!------------------------------------>
+                    {% endfor %}
+                </table>
+            </div>
+<!------------ADD-Instructor------------->
+<div id="InstructorADD" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Instructor</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('InstructorInsert')}}" method="POST">
+
+                    <div class="form-group">
+                        <label>*Name:</label>
+                        <input onkeydown="return /[a-z/ ]/i.test(event.key)" class="form-control" name="Name" required="1">
+                    </div> 
+
+                    <div class="form-group">
+                        <label>*ID:</label>
+                        <input type="number" class="form-control" name="InstructorID" required="1">
+                    </div> 
+
+                    <div class="form-group">
+                        <label>*Department:</label>
+                        <input onkeydown="return /[a-z/ ]/i.test(event.key)" class="form-control" name="Department" required="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">ADD</button>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ---------------------    -->
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

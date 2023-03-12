@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+
+{% endblock %}
+
+{% block body %}
+<div class="jumbotron p-3"></div>
+    <div class="well text-center">
+        <h1><a href={{ url_for('StudentIndex') }} class="btn btn-primary"><strong>STUDENT</strong></a>  - 
+            <a href={{ url_for('CourseIndex') }} class="btn btn-primary"> <strong>COURSE</strong></a>  -
+            <a href={{ url_for('InstructorIndex') }} class="btn btn-primary"> <strong>INSTRUCTOR</strong></a></h1> 
+    </div>
+{% endblock %}
